@@ -1,0 +1,13 @@
+Django~=2.2
+python-dotenv~=0.12.0
+psycopg2==2.8.4
+djangorestframework~=3.11.0
+PyJWT~=1.7.0
+pytest==5.4.1
+redis~=3.4.1
+pymitter~=0.2.3
+requests~=2.21.0
+social-auth-app-django==3.1.0
+boto3~=1.12.23
+botocore~=1.15.23
+celery~=4.4.2

@@ -17,4 +17,6 @@ urlpatterns = [
     path('note/trash_note/', views.TrashNotes.as_view(), name='trash_notes'),
     path('note/reminder_notes/', views.ReminderNotes.as_view(), name='reminder_notes'),
     path('note/pagination/', views.PaginationForNotes.as_view(), name='pagination'),
+    path('note/search/', views.SearchNote.as_view(), name='search')
+
 ]

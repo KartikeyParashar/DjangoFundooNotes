@@ -1,6 +1,9 @@
 from django.shortcuts import render
 
 # Create your views here.
+from .documents import NotesDocument
+from .services import search_notes
+
 """
 ******************************************************************************************************************
 Purpose: In this views module, I created a rest_api for CRUD operations for NOTES, LABELS,
@@ -32,7 +35,7 @@ from Lib.decorators import login_required
 from Lib.redis_cache_fundoo import update_redis, label_update_in_redis
 
 from .models import Note, Label
-from .serializers import NoteSerializer, LabelSerializer
+from .serializers import NoteSerializer, LabelSerializer, SearchSerializer
 
 logger = logging.getLogger(__name__)
 User = get_user_model()
@@ -620,3 +623,31 @@ class PaginationForNotes(GenericAPIView):
             smd = SMD_Response()
             return HttpResponse(smd, status=status.HTTP_400_BAD_REQUEST)
         return render(request, 'fundoonotes/pagination.html', {'notes': notes})
+
+
+class SearchNote(GenericAPIView):
+    serializer_class = SearchSerializer
+
+    def post(self, request):
+        import pdb
+        pdb.set_trace()
+        try:
+            title = request.data['title']
+            if title:
+                note = NotesDocument.search().query("match", title=title)
+                serializer = NoteSerializer(note.to_queryset(), many=True)
+                if serializer:
+                    logger.info("Successfully Found Note")
+                    return Response(SMD_Response(status=True, message="Successfully Found the Note",
+                                                 data=[serializer.data]), status=status.HTTP_200_OK)
+                else:
+                    logger.error("Please Provide Valid DATA")
+                    return Response(SMD_Response(message="Please Provide Valid Data"),
+                                    status=status.HTTP_400_BAD_REQUEST)
+            else:
+                logger.info("Title Not Found")
+                return Response(SMD_Response(message="Title Not Found"), status=status.HTTP_404_NOT_FOUND)
+
+        except Exception as e:
+            logger.error("Something Went Wrong" + str(e))
+            return Response(SMD_Response(message="Something Went Wrong"), status=status.HTTP_400_BAD_REQUEST)

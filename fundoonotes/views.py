@@ -628,6 +628,11 @@ class SearchNote(GenericAPIView):
     serializer_class = SearchSerializer
 
     def post(self, request):
+        """
+
+        :param request:user request for POST
+        :return: the requested note
+        """
         # import pdb
         # pdb.set_trace()
         try:

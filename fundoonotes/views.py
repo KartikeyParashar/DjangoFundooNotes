@@ -633,8 +633,6 @@ class SearchNote(GenericAPIView):
         :param request:user request for POST
         :return: the requested note
         """
-        # import pdb
-        # pdb.set_trace()
         try:
             title = request.data['title']
             if title:

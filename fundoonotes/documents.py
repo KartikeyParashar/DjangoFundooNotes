@@ -11,16 +11,11 @@ html_strip = analyzer(
     char_filter=["html_strip"]
 )
 
-index = Index('note')
-index.settings(
-    number_of_shards=1,
-    number_of_replicas=0
-)
-
 
 @registry.register_document
 class NotesDocument(Document):
     title = fields.TextField(analyzer=html_strip)
+    label = fields.ObjectField(properties={'name': fields.TextField()})
 
     class Index:
         name = 'index'  # Name of the Elastic Search index
@@ -28,3 +23,11 @@ class NotesDocument(Document):
 
     class Django:
         model = Note  # The model associated with this Document
+
+        # The fields of the model you want to be indexed in Elastic Search
+        fields = [
+            'note',
+            'reminder',
+            'is_archive',
+            'is_trashed',
+        ]

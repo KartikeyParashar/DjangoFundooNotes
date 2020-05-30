@@ -1,8 +1,6 @@
 from django.shortcuts import render
 
 # Create your views here.
-from .documents import NotesDocument
-from .services import search_notes
 
 """
 ******************************************************************************************************************
@@ -35,6 +33,7 @@ from Lib.decorators import login_required
 from Lib.redis_cache_fundoo import update_redis, label_update_in_redis
 
 from .models import Note, Label
+from .documents import NotesDocument
 from .serializers import NoteSerializer, LabelSerializer, SearchSerializer
 
 logger = logging.getLogger(__name__)
@@ -629,8 +628,8 @@ class SearchNote(GenericAPIView):
     serializer_class = SearchSerializer
 
     def post(self, request):
-        import pdb
-        pdb.set_trace()
+        # import pdb
+        # pdb.set_trace()
         try:
             title = request.data['title']
             if title:

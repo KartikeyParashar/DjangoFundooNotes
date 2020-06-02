@@ -41,11 +41,14 @@ def send_reminder():
     status = "No Received Task"
     for num in range(len(reminder_notes_list)):
         nextTime = timezone.now() + timezone.timedelta(minutes=1)
-        # status = "No Received Task"
+        status = "No Received Task"
         if timezone.now() <= reminder_notes_list.values()[num]["reminder"] <= nextTime:
             task_send_email_for_reminder(reminder_notes_list.values()[num]["user_id"],
                                          reminder_notes_list.values()[num]["title"],
                                          reminder_notes_list.values()[num]["id"])
+            note = reminder_notes_list[num]
+            note.reminder = None  # Once mail send to the User, we will never send mail again!!
+            note.save()
             status = "Received Task,Successfully Send Mail"
 
     return status

@@ -22,4 +22,4 @@ def setup_periodic_tasks(sender, **kwargs):
     # Calls test('hello') every 10 seconds.
     # sender.add_periodic_task(6.0, add.s(1,3), name='add every 10')
     # sender.add_periodic_task(5.0, add.s(1,100), name='add 5sec')
-    sender.add_periodic_task(30.0, send_reminder.s(), name='send_reminder 30sec')
+    sender.add_periodic_task(15.0, send_reminder.s(), name='send_reminder 15sec')

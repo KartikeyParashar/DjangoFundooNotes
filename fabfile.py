@@ -5,7 +5,7 @@ def backup():
     local("git pull")
     local("git add .")
     print("Enter Your Commit Comment: ")
-    comment = raw_input()
+    comment = input()
     local("git commit -m '%s'" % comment)
     local("git push")
 
@@ -29,7 +29,7 @@ def elasticsearch_connection_status():
 
 
 def elasticsearch_connection_start():
-    local("sudo systemctl status elasticsearch.service")
+    local("sudo systemctl start elasticsearch.service")
 
 
 def elasticsearch_connection_stop():

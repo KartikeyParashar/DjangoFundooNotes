@@ -13,15 +13,13 @@ class TestCasesForCreateNote:
         ENDPOINT = 'note/create/'
         url = os.getenv('BASE_URL') + ENDPOINT
         data = {"title": "Test Case for Create Note",
-                "note": "pytest has support for running Python unittest.py style tests. "
-                        "It’s meant for leveraging existing unittest-style projects to use pytest features."
-                        "Concretely, pytest will automatically collect unittest."}
+                "note": "pytest has support for running Python unittest.py style tests"}
         headers = {'Content-Type': 'application/json'}
         response_ = requests.post(url, data=json.dumps(data), headers=headers)
         assert response_.status_code == 201
 
     def test__note_not_given(self):
-        ENDPOINT = 'note/create'
+        ENDPOINT = 'note/create/'
         url = os.getenv('BASE_URL') + ENDPOINT
         data = {"title": "Test Case for Create Note"}
         headers = {'Content-Type': 'application/json'}
@@ -52,7 +50,7 @@ class TestCaseForGetNoteWithID:
 class TestCaseForUpdateNoteWithID:
 
     def test_for_update_note_with_id(self):
-        ENDPOINT = 'note/update/43/'
+        ENDPOINT = 'note/update/50/'
         url = os.getenv('BASE_URL') + ENDPOINT
         data = {"title": "How prepared is India to tackle a possible COVID-19 outbreak?",
                 "note": "The Indian government has set up coronavirus screening at airports "

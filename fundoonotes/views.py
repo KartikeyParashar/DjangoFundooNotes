@@ -276,10 +276,12 @@ class DeleteNoteWithID(GenericAPIView):
         :return: This function delete the requested note from the DATABASE
         """
         try:
+            # import pdb
+            # pdb.set_trace()
             note_user = get_user(request)
             if note_user:
                 note = Note.objects.filter(id=id, user_id=note_user.id)
-                if note is not None:
+                if note:
                     note.delete()
                     update_redis(note_user)
                     logger.info("Note Deleted")

@@ -24,6 +24,18 @@ def elasticsearch():
     local("python3 manage.py search_index --rebuild")
 
 
+def elasticsearch_connection_status():
+    local("sudo systemctl status elasticsearch.service")
+
+
+def elasticsearch_connection_start():
+    local("sudo systemctl status elasticsearch.service")
+
+
+def elasticsearch_connection_stop():
+    local("sudo systemctl stop elasticsearch.service")
+
+
 def fuser():
     local("fuser -k 8000/tcp")
 
@@ -38,3 +50,7 @@ def migrate():
 
 def runserver():
     local("python3 manage.py runserver")
+
+
+def shell():
+    local("python3 manage.py shell")

@@ -20,6 +20,60 @@ def celerybeat():
     local("celery -A FUNDOONOTES beat -l info")
 
 
+def docker_start():
+    local("sudo service docker start")
+
+
+def docker_status():
+    local("sudo service docker status")
+
+
+def docker_stop():
+    local("sudo service docker stop")
+
+
+def docker_build():
+    local("sudo docker-compose build")
+
+
+def docker_run():
+    local("sudo docker-compose up")
+
+
+def status_redis():
+    local("sudo systemctl status redis-server")
+
+
+def start_redis():
+    local("sudo systemctl start redis-server")
+
+
+def stop_redis():
+    local("sudo systemctl stop redis-server")
+
+
+def status_rabbitmq():
+    local("sudo systemctl status rabbitmq-server")
+
+
+def start_rabbitmq():
+    local("sudo systemctl start rabbitmq-server")
+
+
+def stop_rabbitmq():
+    local("sudo systemctl stop rabbitmq-server")
+
+
+def show_docker_container():
+    local("sudo docker ps -a")
+
+
+def stop_docker_container():
+    print("Enter the container_id you want to stop")
+    id = input()
+    local("sudo docker stop %s" % id)
+
+
 def elasticsearch():
     local("python3 manage.py search_index --rebuild")
 

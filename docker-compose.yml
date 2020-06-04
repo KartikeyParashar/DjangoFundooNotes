@@ -12,6 +12,12 @@ services:
           MYSQL_ROOT_PASSWORD: 'kartkey@123'
       web:
           build: .
-          command: python manage.py runserver 0.0.0.0:8000
-          ports:
-              - 8000:8000
+          command: gunicorn FUNDOONOTES.wsgi:application --bind 0.0.0.0:8000
+          expose:
+              - 8000
+      nginx:
+        build: ./nginx
+        ports:
+          - 1337:80
+        depends_on:
+          - web

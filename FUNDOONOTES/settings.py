@@ -118,6 +118,18 @@ DATABASES = {
     }
 }
 
+#
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'my-app-db',
+#         'USER': 'root',
+#         'PASSWORD': 'kartikey@123',
+#         'HOST': 'db',
+#         'PORT': '',
+#     }
+# }
+
 
 AUTH_USER_MODEL = 'users.Fundoo'
 

@@ -66,7 +66,7 @@ class TestCaseForUpdateNoteWithID:
     #     assert response_.status_code == 202
 
     def test_for_update_note_with_id_note_not_given(self):
-        ENDPOINT = 'note/update/43/'
+        ENDPOINT = 'note/update/3/'
         url = os.getenv('BASE_URL') + ENDPOINT
         data = {"title": "How prepared is India to tackle a possible COVID-19 outbreak?"}
         headers = {'Content-Type': 'application/json'}

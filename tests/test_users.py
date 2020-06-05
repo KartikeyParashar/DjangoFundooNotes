@@ -7,14 +7,14 @@ load_dotenv()
 
 class TestCasesForRegistration:
 
-    def test_for_username_email_password_all_details_given(self):
-        ENDPOINT = 'user/register/'
-        url = os.getenv('BASE_URL') + ENDPOINT
-        data = {"username": "kartikeyparashar96", "email": "kartikeyparashar96@gmail.com",
-                "password": "kartikeyparashar96"}
-        headers = {'Content-Type': 'application/json'}
-        response_ = requests.post(url, data=json.dumps(data), headers=headers)
-        assert response_.status_code == 201
+    # def test_for_username_email_password_all_details_given(self):
+    #     ENDPOINT = 'user/register/'
+    #     url = os.getenv('BASE_URL') + ENDPOINT
+    #     data = {"username": "kartikeyparashar96", "email": "kartikeyparashar96@gmail.com",
+    #             "password": "kartikeyparashar96"}
+    #     headers = {'Content-Type': 'application/json'}
+    #     response_ = requests.post(url, data=json.dumps(data), headers=headers)
+    #     assert response_.status_code == 201
 
     def test_for_email_password_given_username_not_given(self):
         ENDPOINT = 'user/register/'
@@ -63,7 +63,7 @@ class TestCasesForRegistration:
         data = {"password": "kartikeyparashar96"}
         headers = {'Content-Type': 'application/json'}
         response_ = requests.post(url, data=json.dumps(data), headers=headers)
-        assert response_.status_code == 201
+        assert response_.status_code == 400
 
 
 class TestCasesForLogin:
@@ -109,7 +109,7 @@ class TestCasesForResetPassword:
         data = {'username': 'kartikeyparashar96'}
         headers = {'Content-Type': 'application/json'}
         response_ = requests.post(url, data=json.dumps(data), headers=headers)
-        assert response_.status_code == 500
+        assert response_.status_code == 400
 
     def test_Username_not_given(self):
         ENDPOINT = 'user/reset_password/'
@@ -117,7 +117,7 @@ class TestCasesForResetPassword:
         data = {'email': 'kartikeyparashar96@gmail.com'}
         headers = {'Content-Type': 'application/json'}
         response_ = requests.post(url, data=json.dumps(data), headers=headers)
-        assert response_.status_code == 500
+        assert response_.status_code == 400
 
 
 class TestCasesForFORGOTPassword:
@@ -136,7 +136,7 @@ class TestCasesForFORGOTPassword:
         data = {'confirm_password': 'parasharkartikey'}
         headers = {'Content-Type': 'application/json'}
         response_ = requests.post(url, data=json.dumps(data), headers=headers)
-        assert response_.status_code == 400
+        assert response_.status_code == 404
 
     def test_confirm_password_not_given(self):
         ENDPOINT = 'user/forgot_password/parasharkartikey/'

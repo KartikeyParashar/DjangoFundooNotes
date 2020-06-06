@@ -20,6 +20,16 @@ def celerybeat():
     local("celery -A FUNDOONOTES beat -l info")
 
 
+def docker_image():
+    local("sudo docker images")
+
+
+def docker_image_remove():
+    print("Enter the image_id you want to stop forcefully")
+    id = input()
+    local("sudo docker rmi -f %s" % id)
+
+
 def docker_start():
     local("sudo service docker start")
 

@@ -6,10 +6,10 @@ services:
         ports:
           - 3306:3306
         environment:
-          MYSQL_DATABASE: 'my-app-db'
-          MYSQL_USER: 'root'
-          MYSQL_PASSWORD: 'kartikey@123'
-          MYSQL_ROOT_PASSWORD: 'kartkey@123'
+          MYSQL_DATABASE: 'myproject'
+          MYSQL_USER: 'myprojectuser'
+          MYSQL_PASSWORD: 'password'
+          MYSQL_ROOT_PASSWORD: 'password'
       web:
           build: .
           command: gunicorn FUNDOONOTES.wsgi:application --bind 0.0.0.0:8000

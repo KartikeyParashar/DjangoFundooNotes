@@ -40,7 +40,7 @@ class TestCaseForGetNote:
 class TestCaseForGetNoteWithID:
 
     def test_for_get_note_with_id(self):
-        ENDPOINT = 'note/get/3/'
+        ENDPOINT = 'note/get/1/'
         url = os.getenv('BASE_URL') + ENDPOINT
         headers = {'Content-Type': 'application/json'}
         response_ = requests.get(url, headers=headers)

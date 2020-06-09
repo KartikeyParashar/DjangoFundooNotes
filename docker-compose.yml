@@ -3,21 +3,31 @@ version: '3'
 services:
       db:
         image: mysql:5.7
+#        volumes:
+#          - mysql_data:/var/lib/mysql/data/
         ports:
-          - 3306:3306
+          - 3307:3306
         environment:
           MYSQL_DATABASE: 'myproject'
-          MYSQL_USER: 'myprojectuser'
-          MYSQL_PASSWORD: 'password'
+          #          MYSQL_USER: 'myprojectuser'
+          #          MYSQL_PASSWORD: 'password'
           MYSQL_ROOT_PASSWORD: 'password'
       web:
           build: .
-          command: gunicorn FUNDOONOTES.wsgi:application --bind 0.0.0.0:8000
-          expose:
-              - 8000
-      nginx:
-        build: ./nginx
+          command: python manage.py runserver 0.0.0.0:8000
+#          volumes:
+#            - ./:/FUNDOONOTES
+          ports:
+            - 8000:8000
+          depends_on:
+            - db
+      adminer:
+        image: adminer
+        restart: always
         ports:
-          - 1337:80
-        depends_on:
-          - web
+          - 8080:8080
+
+#volumes:
+#    mysql_data:
+
+

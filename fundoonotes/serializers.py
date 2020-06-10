@@ -14,6 +14,12 @@ class LabelSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class CollaboratorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Note
+        fields = ['collaborator']
+
+
 class SearchSerializer(serializers.ModelSerializer):
     class Meta:
         model = Note

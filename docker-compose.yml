@@ -3,24 +3,25 @@ version: '3'
 services:
       db:
         image: mysql:5.7
-#        volumes:
-#          - mysql_data:/var/lib/mysql/data/
+        #        volumes:
+        #          - mysql_data:/var/lib/mysql/data/
         ports:
-          - 3307:3306
+          - 3306:3306
         environment:
           MYSQL_DATABASE: 'myproject'
           #          MYSQL_USER: 'myprojectuser'
           #          MYSQL_PASSWORD: 'password'
           MYSQL_ROOT_PASSWORD: 'password'
       web:
-          build: .
-          command: python manage.py runserver 0.0.0.0:8000
-#          volumes:
-#            - ./:/FUNDOONOTES
-          ports:
-            - 8000:8000
-          depends_on:
-            - db
+        restart: always
+        build: .
+        command: python manage.py runserver 0.0.0.0:8000
+#        volumes:
+#          - ./:/FUNDOOAPP
+        ports:
+          - "8000:8000"
+        depends_on:
+          - db
       adminer:
         image: adminer
         restart: always

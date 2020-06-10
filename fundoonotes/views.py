@@ -34,7 +34,7 @@ from Lib.redis_cache_fundoo import update_redis, label_update_in_redis
 
 from .models import Note, Label
 from .documents import NotesDocument
-from .serializers import NoteSerializer, LabelSerializer, SearchSerializer
+from .serializers import NoteSerializer, LabelSerializer, SearchSerializer, CollaboratorSerializer
 
 logger = logging.getLogger(__name__)
 User = get_user_model()
@@ -497,6 +497,56 @@ class DeleteLabelWithId(GenericAPIView):
             logger.warning("SOMETHING WENT WRONG" + str(e))
             return Response(SMD_Response(message="Not a VALID ID/Invalid Token or Something went wrong!!"),
                             status=status.HTTP_400_BAD_REQUEST)
+
+
+class AddCollaborator(GenericAPIView):
+    serializer_class = CollaboratorSerializer
+
+    def post(self, request, *args, **kwargs):
+        """
+
+        :param request: User add a collaborator to the note
+        :return: update the database with collaborator
+        """
+        try:
+            # import pdb
+            # pdb.set_trace()
+            collaborator_user = get_user(request)
+            if collaborator_user:
+                data = request.data
+                if 'collaborator' in data:
+                    collaborator_list = []
+                    collaborators = data['collaborator']
+                    for mail in collaborators:
+                        user = User.objects.filter(email=mail)
+                        if user:
+                            for usr in user:
+                                collaborator_list.append(usr.id)
+                        else:
+                            logger.error("Invalid Format or Details!!!")
+                            return Response(SMD_Response(message="Something went wrong when "
+                                                                 "validating your collaborator"))
+                    data['collaborator'] = collaborator_list
+                serializer = CollaboratorSerializer(data=data)
+                if serializer.is_valid():
+                    serializer.save()
+                    logger.info("Successfully Collaborator Added")
+                    smd = SMD_Response(status=True, message="Successfully Added Collaborator",
+                                       data=[serializer.data])
+                    return Response(smd, status=status.HTTP_201_CREATED)
+
+                else:
+                    logger.error("Invalid Format or Details!!!")
+                    smd = SMD_Response(status=True, message="Collaborator Addition Failed",
+                                       data=[serializer.errors])
+                    return Response(smd, status=status.HTTP_400_BAD_REQUEST)
+
+            else:
+                return Response(SMD_Response(message="You Need to LOGIN FIRST and Provide Valid Credentials"))
+        except Exception as e:
+            logger.warning("Something went wrong" + str(e))
+            smd = SMD_Response(status=False, message="Something Went Wrong")
+            return Response(smd, status=status.HTTP_404_NOT_FOUND)
 
 
 class ArchiveNotes(GenericAPIView):

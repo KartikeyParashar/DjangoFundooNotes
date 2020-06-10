@@ -15,8 +15,8 @@ urlpatterns = [
     path('label/delete/<id>/', views.DeleteLabelWithId.as_view(), name='delete_label_with_id'),
     path('note/archive_note/', views.ArchiveNotes.as_view(), name='archive_notes'),
     path('note/trash_note/', views.TrashNotes.as_view(), name='trash_notes'),
+    path('note/update_collaborator/', views.AddCollaborator.as_view(), name='collaborator'),
     path('note/reminder_notes/', views.ReminderNotes.as_view(), name='reminder_notes'),
     path('note/pagination/', views.PaginationForNotes.as_view(), name='pagination'),
     path('note/search/', views.SearchNote.as_view(), name='search')
-
 ]

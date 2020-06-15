@@ -111,13 +111,7 @@ WSGI_APPLICATION = 'FUNDOONOTES.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
-#
+# When running in localhost, use this database
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql',
@@ -129,6 +123,7 @@ WSGI_APPLICATION = 'FUNDOONOTES.wsgi.application'
 #     }
 # }
 
+# When running in docker container, use this database
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -221,6 +216,10 @@ AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
 AWS_LOCATION ="ap-south-1"
 AWS_DEFAULT_ACL = 'public-read'
+
+
+AWS_SNS_ACCESS_KEY_ID = os.getenv('AWS_SNS_ACCESS_KEY_ID')
+AWS_SNS_SECRET_ACCESS_KEY = os.getenv('AWS_SNS_SECRET_ACCESS_KEY')
 
 
 CELERY_BROKER_URL = 'amqp://kartikey:kartikey@localhost'

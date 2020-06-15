@@ -9,19 +9,47 @@ services:
           - 3306:3306
         environment:
           MYSQL_DATABASE: 'myproject'
-          #          MYSQL_USER: 'myprojectuser'
-          #          MYSQL_PASSWORD: 'password'
           MYSQL_ROOT_PASSWORD: 'password'
+      redis:
+        image: redis:latest
+        ports:
+          - 6379:6379
+        volumes:
+          - ./config/redis.conf:/redis.conf
+        command: [ "redis-server", "/redis.conf" ]
+#      redis:
+#        image: redis:latest
+#        container_name: redis
+#        restart: unless-stopped
+#        ports:
+#          - "6379:6379"
+#        expose:
+#          - "6379"
+#        volumes:
+#          - /var/run/docker.sock:/var/run/docker.sock
+#        environment:
+#          - 'API_PORT=6379'
+#          - 'NODE_ENV=production'
+
       web:
         restart: always
         build: .
-        command: python manage.py runserver 0.0.0.0:8000
+        command: gunicorn FUNDOONOTES.wsgi:application --bind 0.0.0.0:8000
+                 #python manage.py runserver 0.0.0.0:8000
 #        volumes:
 #          - ./:/FUNDOOAPP
-        ports:
-          - "8000:8000"
+#        ports:
+#          - "8000:8000"
+        expose:
+          - 8000
         depends_on:
           - db
+      nginx:
+        build: ./nginx
+        ports:
+          - 1337:80
+        depends_on:
+          - web
       adminer:
         image: adminer
         restart: always

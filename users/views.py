@@ -38,7 +38,7 @@ from Lib.pyjwt_token import TokenGeneration
 
 from .models import Fundoo
 from .serializers import RegistrationSerializer, LoginSerializer, \
-    ResetPasswordSerializer, ForgotPasswordSerializer, ImageSerializer
+    ResetPasswordSerializer, ForgotPasswordSerializer, ImageSerializer, PhoneSerializer
 
 logger = logging.getLogger(__name__)
 
@@ -107,7 +107,7 @@ def activate(request, token):
             user.is_active = True
             user.save()
             # smd = SMD_Response(True, "You have successfully registered", data=[])
-            return redirect(settings.BASE_URL)
+            return redirect(reverse('login'))
         else:
             return redirect(reverse('register'))
     except Exception as e:
@@ -302,6 +302,29 @@ class UploadImage(GenericAPIView):
         return Response(json.dumps(smd))
 
 
+class SimpleNotificationService(GenericAPIView):
+    serializer_class = PhoneSerializer
+
+    def post(self, request):
+        """
+
+        :param request: we are sending text message to the user
+        :return: successfully send message to the user
+        """
+        try:
+            serializer = PhoneSerializer(data=request.data)
+            if serializer.is_valid():
+                send = CloudUpload()
+                send.simple_notification_service(request.data['phone'])
+                return Response(SMD_Response(status=True, message="Successfully send message",
+                                             data=[serializer.data]),
+                                status=status.HTTP_200_OK)
+        except Exception as e:
+            logger.error("Something Went Wrong" + str(e))
+            smd = SMD_Response(message="Something Went Wrong")
+            return Response(smd, status=status.HTTP_400_BAD_REQUEST)
+
+
 class SocialLogin(GenericAPIView):
     def get(self, request):
         """
@@ -352,3 +375,6 @@ def access_token(request):
         logger.error("Something Went Wrong" + str(e))
         smd = SMD_Response()
     return smd
+
+
+

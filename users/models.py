@@ -6,3 +6,7 @@ from django.db import models
 
 class Fundoo(AbstractUser):
     upload = models.ImageField(null=True)
+
+
+class SendMessage(models.Model):
+    phone = models.CharField(max_length=15, blank=True)

@@ -1,4 +1,4 @@
-from .models import Fundoo
+from .models import Fundoo, SendMessage
 from rest_framework import serializers
 
 
@@ -38,3 +38,10 @@ class ImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Fundoo
         fields = ['upload']
+
+
+class PhoneSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = SendMessage
+        fields = '__all__'

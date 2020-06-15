@@ -13,5 +13,6 @@ urlpatterns = [
     path('user/social_login/', views.SocialLogin.as_view(), name='social_login'),
     path('new/', views.access_token, name='social'),
     path('user/image_upload/', views.UploadImage.as_view(), name='image_upload'),
+    path('user/send_message/', views.SimpleNotificationService.as_view(), name='send_message'),
 ]
 

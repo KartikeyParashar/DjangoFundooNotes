@@ -29,3 +29,24 @@ class CloudUpload:
             return False
         except Exception:
             return False
+
+    def simple_notification_service(self, Phone_Number):
+        """
+
+        :param Phone_Number:request the Phone Number of User
+        :return:True, if image uploaded successfully else returns False
+        """
+        # create an SNS client
+        client = boto3.client("sns", aws_access_key_id=settings.AWS_SNS_ACCESS_KEY_ID,
+                              aws_secret_access_key=settings.AWS_SNS_SECRET_ACCESS_KEY,
+                              region_name=settings.AWS_LOCATION)
+        try:
+            # sent your sms message
+            client.publish(
+                PhoneNumber=str(Phone_Number),
+                Message="We are delighted that you have started your Fundoo Application!!.."
+                        "We look forward to your service"
+            )
+            return True
+        except Exception:
+            return False

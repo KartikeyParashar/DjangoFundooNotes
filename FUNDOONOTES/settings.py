@@ -51,14 +51,23 @@ INSTALLED_APPS = [
     'fundoonotes',
     'django_celery_beat',
     'django_celery_results',
-    'django_elasticsearch_dsl',
+    # 'django_elasticsearch_dsl',
 ]
 
-ELASTICSEARCH_DSL = {
-    'default': {
-        'hosts': 'localhost:9200'
-    },
-}
+# When running in localhost use this DSL
+# ELASTICSEARCH_DSL = {
+#     'default': {
+#         'hosts': 'localhost:9200'
+#     },
+# }
+
+# When running in docker use this DSL
+# ELASTICSEARCH_DSL = {
+#     'default': {
+#         'hosts': 'elasticsearch:9200'
+#     },
+# }
+
 
 REST_FRAMEWORK = {'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'}
 
@@ -112,28 +121,28 @@ WSGI_APPLICATION = 'FUNDOONOTES.wsgi.application'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 # When running in localhost, use this database
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'myproject',
-#         'USER': 'myprojectuser',
-#         'PASSWORD': 'password',
-#         'HOST': 'localhost',
-#         'PORT': '',
-#     }
-# }
-
-# When running in docker container, use this database
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'myproject',
-        'USER': 'root',
+        'USER': 'myprojectuser',
         'PASSWORD': 'password',
-        'HOST': 'db',
-        'PORT': '3306',
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
+
+# When running in docker container, use this database
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'myproject',
+#         'USER': 'root',
+#         'PASSWORD': 'password',
+#         'HOST': 'db',
+#         'PORT': '3306',
+#     }
+# }
 
 
 AUTH_USER_MODEL = 'users.Fundoo'

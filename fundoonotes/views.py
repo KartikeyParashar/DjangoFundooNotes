@@ -102,7 +102,7 @@ class CreateNote(GenericAPIView):
             else:
                 return Response(SMD_Response(message="You Need to LOGIN FIRST and Provide Valid Credentials"))
         except Exception as e:
-            logger.warning("Something went wrong" + str(e))
+            logger.warning("Something went wrong " + str(e))
             smd = SMD_Response(status=False, message="Something Went Wrong")
             return Response(smd, status=status.HTTP_404_NOT_FOUND)
 
@@ -502,7 +502,7 @@ class DeleteLabelWithId(GenericAPIView):
 class AddCollaborator(GenericAPIView):
     serializer_class = CollaboratorSerializer
 
-    def post(self, request, *args, **kwargs):
+    def put(self, request, id, *args, **kwargs):
         """
 
         :param request: User add a collaborator to the note
@@ -513,33 +513,36 @@ class AddCollaborator(GenericAPIView):
             # pdb.set_trace()
             collaborator_user = get_user(request)
             if collaborator_user:
-                data = request.data
-                if 'collaborator' in data:
-                    collaborator_list = []
-                    collaborators = data['collaborator']
-                    for mail in collaborators:
-                        user = User.objects.filter(email=mail)
-                        if user:
-                            for usr in user:
-                                collaborator_list.append(usr.id)
-                        else:
-                            logger.error("Invalid Format or Details!!!")
-                            return Response(SMD_Response(message="Something went wrong when "
-                                                                 "validating your collaborator"))
-                    data['collaborator'] = collaborator_list
-                serializer = CollaboratorSerializer(data=data)
-                if serializer.is_valid():
-                    serializer.save()
-                    logger.info("Successfully Collaborator Added")
-                    smd = SMD_Response(status=True, message="Successfully Added Collaborator",
-                                       data=[serializer.data])
-                    return Response(smd, status=status.HTTP_201_CREATED)
+                note = Note.objects.get(id=id, user_id=collaborator_user.id)
+                if note is not None:
+                    data = request.data
+                    if 'collaborator' in data:
+                        collaborator_list = []
+                        collaborators = data['collaborator']
+                        for mail in collaborators:
+                            user = User.objects.filter(email=mail)
+                            if user:
+                                for usr in user:
+                                    collaborator_list.append(usr.id)
+                            else:
+                                logger.error("Invalid Format or Details!!!")
+                                return Response(SMD_Response(message="Something went wrong when "
+                                                                     "validating your collaborator"))
+                        data['collaborator'] = collaborator_list
+                    serializer = CollaboratorSerializer(note, data=data)
+                    if serializer.is_valid():
+                        serializer.save()
+                        update_redis(collaborator_user)
+                        logger.info("Successfully Collaborator Added")
+                        smd = SMD_Response(status=True, message="Successfully Added Collaborator",
+                                           data=[serializer.data])
+                        return Response(smd, status=status.HTTP_201_CREATED)
 
-                else:
-                    logger.error("Invalid Format or Details!!!")
-                    smd = SMD_Response(status=True, message="Collaborator Addition Failed",
-                                       data=[serializer.errors])
-                    return Response(smd, status=status.HTTP_400_BAD_REQUEST)
+                    else:
+                        logger.error("Invalid Format or Details!!!")
+                        smd = SMD_Response(status=True, message="Collaborator Addition Failed",
+                                           data=[serializer.errors])
+                        return Response(smd, status=status.HTTP_400_BAD_REQUEST)
 
             else:
                 return Response(SMD_Response(message="You Need to LOGIN FIRST and Provide Valid Credentials"))
@@ -676,32 +679,32 @@ class PaginationForNotes(GenericAPIView):
         return render(request, 'fundoonotes/pagination.html', {'notes': notes})
 
 
-class SearchNote(GenericAPIView):
-    serializer_class = SearchSerializer
-
-    def post(self, request):
-        """
-
-        :param request:user request for POST
-        :return: the requested note
-        """
-        try:
-            title = request.data['title']
-            if title:
-                note = NotesDocument.search().query("match", title=title)
-                serializer = NoteSerializer(note.to_queryset(), many=True)
-                if serializer:
-                    logger.info("Successfully Found Note")
-                    return Response(SMD_Response(status=True, message="Successfully Found the Note",
-                                                 data=[serializer.data]), status=status.HTTP_200_OK)
-                else:
-                    logger.error("Please Provide Valid DATA")
-                    return Response(SMD_Response(message="Please Provide Valid Data"),
-                                    status=status.HTTP_400_BAD_REQUEST)
-            else:
-                logger.info("Title Not Found")
-                return Response(SMD_Response(message="Title Not Found"), status=status.HTTP_404_NOT_FOUND)
-
-        except Exception as e:
-            logger.error("Something Went Wrong" + str(e))
-            return Response(SMD_Response(message="Something Went Wrong"), status=status.HTTP_400_BAD_REQUEST)
+# class SearchNote(GenericAPIView):
+#     serializer_class = SearchSerializer
+#
+#     def post(self, request):
+#         """
+#
+#         :param request:user request for POST
+#         :return: the requested note
+#         """
+#         try:
+#             title = request.data['title']
+#             if title:
+#                 note = NotesDocument.search().query("match", title=title)
+#                 serializer = NoteSerializer(note.to_queryset(), many=True)
+#                 if serializer:
+#                     logger.info("Successfully Found Note")
+#                     return Response(SMD_Response(status=True, message="Successfully Found the Note",
+#                                                  data=[serializer.data]), status=status.HTTP_200_OK)
+#                 else:
+#                     logger.error("Please Provide Valid DATA")
+#                     return Response(SMD_Response(message="Please Provide Valid Data"),
+#                                     status=status.HTTP_400_BAD_REQUEST)
+#             else:
+#                 logger.info("Title Not Found")
+#                 return Response(SMD_Response(message="Title Not Found"), status=status.HTTP_404_NOT_FOUND)
+#
+#         except Exception as e:
+#             logger.error("Something Went Wrong " + str(e))
+#             return Response(SMD_Response(message="Something Went Wrong"), status=status.HTTP_400_BAD_REQUEST)

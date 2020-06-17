@@ -679,32 +679,32 @@ class PaginationForNotes(GenericAPIView):
         return render(request, 'fundoonotes/pagination.html', {'notes': notes})
 
 
-# class SearchNote(GenericAPIView):
-#     serializer_class = SearchSerializer
-#
-#     def post(self, request):
-#         """
-#
-#         :param request:user request for POST
-#         :return: the requested note
-#         """
-#         try:
-#             title = request.data['title']
-#             if title:
-#                 note = NotesDocument.search().query("match", title=title)
-#                 serializer = NoteSerializer(note.to_queryset(), many=True)
-#                 if serializer:
-#                     logger.info("Successfully Found Note")
-#                     return Response(SMD_Response(status=True, message="Successfully Found the Note",
-#                                                  data=[serializer.data]), status=status.HTTP_200_OK)
-#                 else:
-#                     logger.error("Please Provide Valid DATA")
-#                     return Response(SMD_Response(message="Please Provide Valid Data"),
-#                                     status=status.HTTP_400_BAD_REQUEST)
-#             else:
-#                 logger.info("Title Not Found")
-#                 return Response(SMD_Response(message="Title Not Found"), status=status.HTTP_404_NOT_FOUND)
-#
-#         except Exception as e:
-#             logger.error("Something Went Wrong " + str(e))
-#             return Response(SMD_Response(message="Something Went Wrong"), status=status.HTTP_400_BAD_REQUEST)
+class SearchNote(GenericAPIView):
+    serializer_class = SearchSerializer
+
+    def post(self, request):
+        """
+
+        :param request:user request for POST
+        :return: the requested note
+        """
+        try:
+            title = request.data['title']
+            if title:
+                note = NotesDocument.search().query("match", title=title)
+                serializer = NoteSerializer(note.to_queryset(), many=True)
+                if serializer:
+                    logger.info("Successfully Found Note")
+                    return Response(SMD_Response(status=True, message="Successfully Found the Note",
+                                                 data=[serializer.data]), status=status.HTTP_200_OK)
+                else:
+                    logger.error("Please Provide Valid DATA")
+                    return Response(SMD_Response(message="Please Provide Valid Data"),
+                                    status=status.HTTP_400_BAD_REQUEST)
+            else:
+                logger.info("Title Not Found")
+                return Response(SMD_Response(message="Title Not Found"), status=status.HTTP_404_NOT_FOUND)
+
+        except Exception as e:
+            logger.error("Something Went Wrong " + str(e))
+            return Response(SMD_Response(message="Something Went Wrong"), status=status.HTTP_400_BAD_REQUEST)

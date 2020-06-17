@@ -18,5 +18,5 @@ urlpatterns = [
     path('note/update_collaborator/<id>/', views.AddCollaborator.as_view(), name='collaborator'),
     path('note/reminder_notes/', views.ReminderNotes.as_view(), name='reminder_notes'),
     path('note/pagination/', views.PaginationForNotes.as_view(), name='pagination'),
-    # path('note/search/', views.SearchNote.as_view(), name='search')
+    path('note/search/', views.SearchNote.as_view(), name='search')
 ]

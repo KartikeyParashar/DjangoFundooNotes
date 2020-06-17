@@ -53,6 +53,7 @@ itypes==1.2.0
 jdcal==1.4.1
 Jinja2==2.11.2
 jmespath==0.10.0
+locust==1.0.3
 MarkupSafe==1.1.1
 more-itertools==8.3.0
 mysqlclient==1.4.6

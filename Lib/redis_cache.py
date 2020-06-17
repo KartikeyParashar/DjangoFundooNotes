@@ -1,10 +1,10 @@
 import redis
 
 # When running localhost
-# redis_object = redis.Redis(host="localhost", port=6379)
+redis_object = redis.Redis(host="localhost", port=6379)
 
 # When running inside Docker use this
-redis_object = redis.Redis(host="redis", port=6379)
+# redis_object = redis.Redis(host="redis", port=6379)
 
 
 def Set(username, token):

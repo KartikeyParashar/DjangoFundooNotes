@@ -51,15 +51,15 @@ INSTALLED_APPS = [
     'fundoonotes',
     'django_celery_beat',
     'django_celery_results',
-    # 'django_elasticsearch_dsl',
+    'django_elasticsearch_dsl',
 ]
 
 # When running in localhost use this DSL
-# ELASTICSEARCH_DSL = {
-#     'default': {
-#         'hosts': 'localhost:9200'
-#     },
-# }
+ELASTICSEARCH_DSL = {
+    'default': {
+        'hosts': 'localhost:9200'
+    },
+}
 
 # When running in docker use this DSL
 # ELASTICSEARCH_DSL = {

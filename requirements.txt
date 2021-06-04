@@ -18,7 +18,7 @@ coverage==5.1
 cryptography==2.6.1
 defusedxml==0.7.0rc1
 distlib==0.3.0
-django==2.2.10
+django==2.2.21
 django-allauth==0.41.0
 django-appconf==1.0.4
 django-celery==3.3.1

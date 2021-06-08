@@ -63,7 +63,7 @@ openpyxl==2.4.11
 orderedmultidict==1.0.1
 packaging==20.4
 paramiko==2.6.0
-Pillow==6.2.2
+Pillow==8.2.0
 pluggy==0.13.1
 py==1.8.1
 pycparser==2.20

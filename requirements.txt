@@ -67,7 +67,7 @@ Pillow==6.2.2
 pluggy==0.13.1
 py==1.8.1
 pycparser==2.20
-PyJWT==1.7.0
+PyJWT==2.4.0
 pymitter==0.2.3
 PyNaCl==1.4.0
 pyparsing==2.4.7

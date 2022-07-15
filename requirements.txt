@@ -24,7 +24,7 @@ django-appconf==1.0.4
 django-celery==3.3.1
 django-celery-beat==2.0.0
 django-celery-email==3.0.0
-django-celery-results==1.2.1
+django-celery-results==2.4.0
 django-elasticsearch-dsl==7.1.1
 django-excel-base==1.0.3
 django-excel-response==2.0.5
